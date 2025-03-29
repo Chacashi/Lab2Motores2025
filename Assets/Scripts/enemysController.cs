@@ -8,6 +8,8 @@ public class enemysController : MonoBehaviour
     [SerializeField] private int damage;
     [SerializeField] private float speed;
     [SerializeField] private float directionX;
+
+    public int Damage => damage * -1;
     
     [Header("Others")]
     Rigidbody2D _compRigidbody2d;
@@ -25,10 +27,6 @@ public class enemysController : MonoBehaviour
         _compRigidbody2d.velocity = new Vector2(directionX, _compRigidbody2d.velocity.y);
     }
 
-    public int  GetDamage()
-    {
-        return damage*-1;
-    }
 
 
 

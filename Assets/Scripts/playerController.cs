@@ -29,8 +29,12 @@ public class playerController : MonoBehaviour
     [SerializeField] private int currentLife;
     [SerializeField] private int maxLife;
 
+    public int CurrentLife => currentLife;
+
     [Header("Others")]
     [SerializeField] private bool isReceiveDamage;
+
+    public bool IsReceiveDamage => isReceiveDamage;
 
     private void Awake()
     {
@@ -120,10 +124,6 @@ public class playerController : MonoBehaviour
     }
 
 
-    public bool GetReceiveDamage()
-    {
-       return isReceiveDamage;  
-       
-    }
+   
 
 }
