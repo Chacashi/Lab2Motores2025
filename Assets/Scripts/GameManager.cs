@@ -4,15 +4,30 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+
+    [SerializeField] private playerController player;
+    [SerializeField] private enemysController enemy;
+
+  
+    private void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (player.GetReceiveDamage())
+        {
+            player.SetLife(player.AddLife(enemy.GetDamage()));
+            player.SetReceiveDamage(false);
+        }
     }
+
+   
+    
+
+    
+
+ 
 }

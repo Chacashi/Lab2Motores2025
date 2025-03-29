@@ -23,10 +23,24 @@ public class playerController : MonoBehaviour
     [SerializeField] private bool isDoubleJump;
     [SerializeField] private bool isJump;
 
+
+    [Header("Life")]
+    
+    [SerializeField] private int currentLife;
+    [SerializeField] private int maxLife;
+
+    [Header("Others")]
+    [SerializeField] private bool isReceiveDamage;
+
     private void Awake()
     {
         _compRigidbody2d = GetComponent<Rigidbody2D>();
 
+    }
+
+    private void Start()
+    {
+        SetLife(maxLife);
     }
 
     private void Update()
@@ -73,12 +87,42 @@ public class playerController : MonoBehaviour
                 _compRigidbody2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 isDoubleJump= false;
             }
+        } 
+    }
+
+    
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            isReceiveDamage = true;
+
         }
+    }
 
-        
+   
+
+    public void SetReceiveDamage(bool statusReceiveDamage)
+    {
+        isReceiveDamage =statusReceiveDamage;
+    }
+
+    public void SetLife(int maxLife)
+    {
+        currentLife = maxLife;
+    }
+
+    public int AddLife(int pointLife)
+    {
+        currentLife += pointLife;
+        return currentLife;
+    }
 
 
-
+    public bool GetReceiveDamage()
+    {
+       return isReceiveDamage;  
        
     }
 
