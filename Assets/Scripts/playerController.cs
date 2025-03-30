@@ -31,11 +31,13 @@ public class playerController : MonoBehaviour
 
     public int CurrentLife => currentLife;
 
-    [Header("Others")]
+    [Header("System Receive Damage")]
     [SerializeField] private bool isReceiveDamage;
+    [SerializeField] private bool isTakeEnemy;
     private GameObject enemy;
 
     public bool IsReceiveDamage => isReceiveDamage;
+    public bool IsTakeEnemy => isTakeEnemy;
 
     private void Awake()
     {
@@ -99,14 +101,28 @@ public class playerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if ((collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Obstacle"))
         {
-            isReceiveDamage = true;
-            enemy = collision.gameObject;
+            isTakeEnemy = true;
+            if (this.gameObject.layer != collision.gameObject.layer)
+            {
+                isReceiveDamage = true;
+                enemy = collision.gameObject;
+            }
+            
         }
     }
 
-   
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if ((collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Obstacle"))
+        {
+            isTakeEnemy = false;
+
+        }
+    }
+
+
 
     public void SetReceiveDamage(bool statusReceiveDamage)
     {

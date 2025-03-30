@@ -10,14 +10,25 @@ public class ButtonOpc : ButtonCotroller
 
     protected override void Interactue()
     {
-        if (canvasGroupObjective.alpha == 0)
+            if (canvasGroupObjective.interactable ==true)
         {
             for (int i = 0; i < arrayCanvasGroup.Length; i++)
             {
-                arrayCanvasGroup[i].alpha = 0;
+
                 arrayCanvasGroup[i].interactable = false;
                 arrayCanvasGroup[i].blocksRaycasts = false;
             }
         }
+        else
+        {
+            for (int i = 0; i < arrayCanvasGroup.Length; i++)
+            {
+
+                arrayCanvasGroup[i].interactable = true;
+                arrayCanvasGroup[i].blocksRaycasts = true;
+            }
+        }
+            
+        
     }
 }

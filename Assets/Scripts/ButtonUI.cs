@@ -12,15 +12,20 @@ public class ButtonUI : ButtonCotroller
         {
             canvasGroupPrincipal.interactable = false;
             canvasGroupPrincipal.blocksRaycasts = false;
-            
-         
+            canvasGroupPrincipal.alpha = 0;
+            Time.timeScale = 1;
+
+
+
         }
         else
         {
             canvasGroupPrincipal.interactable = true;
             canvasGroupPrincipal.blocksRaycasts = true;
-            
-          
+            canvasGroupPrincipal.alpha = 1;
+            Time.timeScale = 0;
+
+
         }
     }
 }

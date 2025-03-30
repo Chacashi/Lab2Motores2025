@@ -14,21 +14,27 @@ public class ButtonColor : ButtonCotroller
 
     protected override void Interactue()
     {
-        
-        switch (buttonColor.tag)
+        if (player.gameObject.GetComponent<playerController>().IsTakeEnemy == false)
+        {
+            switch (buttonColor.tag)
             {
                 case "red":
                     player.color = Color.red;
+                    player.gameObject.layer = 7;
                     break;
                 case "blue":
                     player.color = Color.blue;
+                    player.gameObject.layer = 9;
                     break;
                 case "yellow":
                     player.color = Color.yellow;
+                    player.gameObject.layer = 8;
                     break;
                 default:
                     break;
-            }    
+            }
+        }
+          
     }
 
 

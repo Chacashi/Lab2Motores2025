@@ -10,21 +10,30 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private playerController player;
     //[SerializeField] private enemysController enemy;
-    [Header("Life")]
+    [Header("Life UI")]
     [SerializeField] private TMP_Text textLife;
     [SerializeField] private CanvasGroup panelLose;
     [SerializeField] private CanvasGroup ButtonsGroup;
+
+    [Header("Time UI")]
+    [SerializeField] private TMP_Text textTime;
+    [SerializeField] private float currentTime;
 
 
   
     private void Start()
     {
-        textLife.text = "Vida: " + player.CurrentLife;
         
+        currentTime = 0;
+        textLife.text = "Vida: " + player.CurrentLife;
+        textTime.text = "Time: " + currentTime;
+         
     }
 
     private void Update()
     {
+        currentTime += Time.deltaTime;
+        textTime.text = "Time: "+ (int)currentTime;
         RestarLevel();
 
         if (player.IsReceiveDamage)
