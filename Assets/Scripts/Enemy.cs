@@ -34,7 +34,7 @@ public class Enemy : EnemyController
     private void FixedUpdate()
     {
 
-        _compRigidbody2d.velocity = new Vector2(directionX * speed, _compRigidbody2d.velocity.y);
+        _compRigidbody2d.linearVelocity = new Vector2(directionX * speed, _compRigidbody2d.linearVelocity.y);
 
 
         hit = Physics2D.Raycast(objectDirection.position, Vector2.down, distanceRay, layerRay);

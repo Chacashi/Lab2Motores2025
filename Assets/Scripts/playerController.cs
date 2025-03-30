@@ -61,7 +61,7 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _compRigidbody2d.velocity = new Vector2(horizontal* speed, _compRigidbody2d.velocity.y);
+        _compRigidbody2d.linearVelocity = new Vector2(horizontal* speed, _compRigidbody2d.linearVelocity.y);
 
 
 
