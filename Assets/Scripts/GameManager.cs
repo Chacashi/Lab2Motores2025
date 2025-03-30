@@ -14,15 +14,23 @@ public class GameManager : MonoBehaviour
     [Header("Life UI")]
     //[SerializeField] private TMP_Text textLife;
     [SerializeField] private Slider sliderLife;
-    [SerializeField] private CanvasGroup panelLose;
-    [SerializeField] private CanvasGroup ButtonsGroup;
+    
+   
 
     [Header("Time UI")]
     [SerializeField] private TMP_Text textTime;
     [SerializeField] private float currentTime;
 
 
-  
+    [Header("State Game")]
+    [SerializeField] private CanvasGroup panelLose;
+    [SerializeField] private CanvasGroup panelWin;
+
+
+    [Header("Buttons UI")]
+    [SerializeField] private CanvasGroup ButtonsGroup;
+
+
     private void Start()
     {
         
@@ -36,9 +44,9 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         currentTime += Time.deltaTime;
-        textTime.text = "Time: "+ (int)currentTime;
-        RestarLevel();
-
+        textTime.text = "Time: " + (int)currentTime;
+        PlayerLose();
+        PlayerWin();
         if (player.IsReceiveDamage)
         {
             player.SetLife(player.AddLife(player.GetDamageEnemy()));
@@ -48,7 +56,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void RestarLevel()
+    void PlayerLose()
     {
         if (player.CurrentLife <= 0)
         {
@@ -58,7 +66,13 @@ public class GameManager : MonoBehaviour
             panelLose.blocksRaycasts = true;
             ButtonsGroup.interactable = false;
             ButtonsGroup.blocksRaycasts = false;
+            panelLose.GetComponentInChildren<TMP_Text>().text = "Tiempo: " + (int)currentTime;
         }
+    }
+
+    void PlayerWin()
+    {
+
     }
 
    
