@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEditor.SearchService;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
 
@@ -11,7 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private playerController player;
     //[SerializeField] private enemysController enemy;
     [Header("Life UI")]
-    [SerializeField] private TMP_Text textLife;
+    //[SerializeField] private TMP_Text textLife;
+    [SerializeField] private Slider sliderLife;
     [SerializeField] private CanvasGroup panelLose;
     [SerializeField] private CanvasGroup ButtonsGroup;
 
@@ -25,7 +27,8 @@ public class GameManager : MonoBehaviour
     {
         
         currentTime = 0;
-        textLife.text = "Vida: " + player.CurrentLife;
+       // textLife.text = "Vida: " + player.CurrentLife;
+       sliderLife.value = player.CurrentLife;
         textTime.text = "Time: " + currentTime;
          
     }
@@ -39,7 +42,8 @@ public class GameManager : MonoBehaviour
         if (player.IsReceiveDamage)
         {
             player.SetLife(player.AddLife(player.GetDamageEnemy()));
-            textLife.text = "Vida: " + player.CurrentLife;
+            //textLife.text = "Vida: " + player.CurrentLife;
+            sliderLife.value = player.CurrentLife;
             player.SetReceiveDamage(false);
         }
     }
