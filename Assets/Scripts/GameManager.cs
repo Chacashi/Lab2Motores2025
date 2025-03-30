@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
 
     [SerializeField] private playerController player;
-    [SerializeField] private enemysController enemy;
+    //[SerializeField] private enemysController enemy;
     [Header("Life")]
     [SerializeField] private TMP_Text textLife;
     [SerializeField] private CanvasGroup panelLose;
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 
         if (player.IsReceiveDamage)
         {
-            player.SetLife(player.AddLife(enemy.Damage));
+            player.SetLife(player.AddLife(player.GetDamageEnemy()));
             textLife.text = "Vida: " + player.CurrentLife;
             player.SetReceiveDamage(false);
         }

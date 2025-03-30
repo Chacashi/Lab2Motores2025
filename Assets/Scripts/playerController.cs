@@ -33,6 +33,7 @@ public class playerController : MonoBehaviour
 
     [Header("Others")]
     [SerializeField] private bool isReceiveDamage;
+    private GameObject enemy;
 
     public bool IsReceiveDamage => isReceiveDamage;
 
@@ -101,7 +102,7 @@ public class playerController : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             isReceiveDamage = true;
-
+            enemy = collision.gameObject;
         }
     }
 
@@ -121,6 +122,11 @@ public class playerController : MonoBehaviour
     {
         currentLife += pointLife;
         return currentLife;
+    }
+
+    public int GetDamageEnemy()
+    {
+       return enemy.GetComponent<EnemyController>().Damage;
     }
 
 

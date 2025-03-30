@@ -2099,7 +2099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14014bd3d08593f49a9fbcd73657f457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 5
   speed: 5
   directionX: 0
 --- !u!70 &1704708275
@@ -2329,7 +2329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 574168796}
-  enemy: {fileID: 1408877920}
   textLife: {fileID: 9674571}
   panelLose: {fileID: 1996919263}
   ButtonsGroup: {fileID: 426805535}

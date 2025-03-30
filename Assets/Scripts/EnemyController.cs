@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class enemysController : MonoBehaviour
+ public  class EnemyController : MonoBehaviour
 {
     [Header("Atributtes")]
     [SerializeField] private int damage;
