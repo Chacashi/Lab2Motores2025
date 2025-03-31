@@ -6,9 +6,11 @@ TagManager:
   tags:
   - red
   - blue
-  - yellow
   - Enemy
   - Obstacle
+  - green
+  - tacho
+  - dead
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - UI
   - ground
   - Red
-  - Yellow
+  - Green
   - Blue
   - 
   - 

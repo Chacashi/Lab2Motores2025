@@ -28,6 +28,9 @@ public class playerController : MonoBehaviour
     
     [SerializeField] private int currentLife;
     [SerializeField] private int maxLife;
+    [SerializeField] private bool isDead;
+
+    public bool Isdead => isDead;
 
     public int CurrentLife => currentLife;
 
@@ -39,10 +42,17 @@ public class playerController : MonoBehaviour
     public bool IsReceiveDamage => isReceiveDamage;
     public bool IsTakeEnemy => isTakeEnemy;
 
+
+    [Header("Sprite")]
+    SpriteRenderer _compSpriteRenderer;
+
+    [Header("State Game")]
+    [SerializeField] private bool isTakeTacho;
+    public bool IsTakeTacho => isTakeTacho;
     private void Awake()
     {
         _compRigidbody2d = GetComponent<Rigidbody2D>();
-
+        _compSpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -53,6 +63,7 @@ public class playerController : MonoBehaviour
     private void Update()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
+        CheckDirectionSprite(horizontal);
         if (Input.GetKeyDown(KeyCode.Space))
         {
             canJump = true;
@@ -93,6 +104,7 @@ public class playerController : MonoBehaviour
             {
                 _compRigidbody2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 isDoubleJump= false;
+                canJump = false ;
             }
         } 
     }
@@ -111,6 +123,17 @@ public class playerController : MonoBehaviour
             }
             
         }
+
+        if(collision.gameObject.tag == "tacho")
+        {
+            isTakeTacho = true;
+        }
+
+
+        if(collision.gameObject.tag == "dead")
+        {
+            isDead = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -123,6 +146,17 @@ public class playerController : MonoBehaviour
     }
 
 
+    void CheckDirectionSprite( float horizontal)
+    {
+        if(horizontal != -1)
+        {
+            _compSpriteRenderer.flipX = false;
+        }
+        else
+        {
+            _compSpriteRenderer.flipX = true;
+        }
+    }
 
     public void SetReceiveDamage(bool statusReceiveDamage)
     {
@@ -144,6 +178,8 @@ public class playerController : MonoBehaviour
     {
        return enemy.GetComponent<EnemyController>().Damage;
     }
+
+
 
 
    

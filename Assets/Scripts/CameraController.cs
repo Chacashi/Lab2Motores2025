@@ -5,23 +5,23 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private GameObject target;
-    private Vector3 targetPos;
-    [SerializeField] private float fowards;
+    [SerializeField] private float fowards = 1.0f;
 
     private void FixedUpdate()
     {
-        targetPos = new Vector3(target.transform.position.x, target.transform.position.y, transform.position.z);
+        if (target == null) return; 
 
-        if (target.transform.localScale.x == 1)
-        {
-            targetPos = new Vector3(targetPos.x + fowards, targetPos.y, transform.position.z);
-        }
+      
+        float direction = Mathf.Sign(target.transform.localScale.x);
 
-        if (target.transform.localScale.x == -1)
-        {
-            targetPos = new Vector3(targetPos.x - fowards, targetPos.y, transform.position.z);
-        }
+     
+        Vector3 targetPos = new Vector3(
+            target.transform.position.x + (fowards * direction),
+            target.transform.position.y,
+            transform.position.z
+        );
 
+   
         transform.position = targetPos;
     }
 }

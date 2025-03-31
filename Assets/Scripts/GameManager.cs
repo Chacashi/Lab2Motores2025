@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
 
     void PlayerLose()
     {
-        if (player.CurrentLife <= 0)
+        if (player.CurrentLife <= 0 || player.Isdead == true )
         {
             Time.timeScale = 0.0f;
             panelLose.alpha = 1.0f;
@@ -72,6 +72,16 @@ public class GameManager : MonoBehaviour
 
     void PlayerWin()
     {
+        if (player.IsTakeTacho)
+        {
+            Time.timeScale = 0.0f;
+            panelWin.alpha = 1.0f;
+            panelWin.interactable = true;
+            panelWin.blocksRaycasts = true;
+            ButtonsGroup.interactable = false;
+            ButtonsGroup.blocksRaycasts = false;
+            panelWin.GetComponentInChildren<TMP_Text>().text = "Tiempo: " + (int)currentTime;
+        }
 
     }
 

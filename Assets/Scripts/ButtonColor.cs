@@ -26,8 +26,8 @@ public class ButtonColor : ButtonCotroller
                     player.color = Color.blue;
                     player.gameObject.layer = 9;
                     break;
-                case "yellow":
-                    player.color = Color.yellow;
+                case "green":
+                    player.color = Color.green;
                     player.gameObject.layer = 8;
                     break;
                 default:
