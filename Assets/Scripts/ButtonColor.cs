@@ -14,7 +14,7 @@ public class ButtonColor : ButtonCotroller
 
     protected override void Interactue()
     {
-        if (player.gameObject.GetComponent<playerController>().IsTakeEnemy == false)
+        if (player.gameObject.GetComponent<playerController>().CanChangueColor == true)
         {
             switch (buttonColor.tag)
             {

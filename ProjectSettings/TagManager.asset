@@ -11,6 +11,8 @@ TagManager:
   - green
   - tacho
   - dead
+  - coin
+  - heart
   layers:
   - Default
   - TransparentFX

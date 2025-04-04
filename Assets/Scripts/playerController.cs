@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,27 +29,34 @@ public class playerController : MonoBehaviour
     
     [SerializeField] private int currentLife;
     [SerializeField] private int maxLife;
-    [SerializeField] private bool isDead;
 
-    public bool Isdead => isDead;
+    public static event Action OnPlayerDeath;
+    public static event Action OnPlayerTakeTrush;
+    public static event Action OnPlayerAddPointsCoin;
+    public static event Action<int> OnPlayerReceiveDamage;
+    public static event Action<int> OnPlayerTakeCoin;
+    public static event Action<int> OnPlayerTakeHeart;
+
+   
 
     public int CurrentLife => currentLife;
+    public int MaxLife => maxLife;  
 
     [Header("System Receive Damage")]
-    [SerializeField] private bool isReceiveDamage;
-    [SerializeField] private bool isTakeEnemy;
-    private GameObject enemy;
+    [SerializeField] private bool canChangueColor;
+    [SerializeField] private int enemieCollisionCount =0;
 
-    public bool IsReceiveDamage => isReceiveDamage;
-    public bool IsTakeEnemy => isTakeEnemy;
+    public bool CanChangueColor => canChangueColor;
 
 
     [Header("Sprite")]
     SpriteRenderer _compSpriteRenderer;
 
-    [Header("State Game")]
-    [SerializeField] private bool isTakeTacho;
-    public bool IsTakeTacho => isTakeTacho;
+    [Header("Points")]
+    [SerializeField] private int currentPointsPlayer;
+
+    public int CurrentPointsPlayer => currentPointsPlayer; 
+
     private void Awake()
     {
         _compRigidbody2d = GetComponent<Rigidbody2D>();
@@ -57,7 +65,8 @@ public class playerController : MonoBehaviour
 
     private void Start()
     {
-        SetLife(maxLife);
+       SetLife(maxLife);
+        canChangueColor = true;
     }
 
     private void Update()
@@ -67,6 +76,11 @@ public class playerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             canJump = true;
+        }
+
+        if (currentLife <= 0)
+        {
+            OnPlayerDeath?.Invoke();
         }
     }
 
@@ -115,34 +129,69 @@ public class playerController : MonoBehaviour
     {
         if ((collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Obstacle"))
         {
-            isTakeEnemy = true;
+            enemieCollisionCount++;
+            canChangueColor = false;
+
             if (this.gameObject.layer != collision.gameObject.layer)
             {
-                isReceiveDamage = true;
-                enemy = collision.gameObject;
+                
+                OnPlayerReceiveDamage?.Invoke(collision.gameObject.GetComponent<EnemyController>().Damage);
             }
             
         }
 
         if(collision.gameObject.tag == "tacho")
         {
-            isTakeTacho = true;
+            OnPlayerTakeTrush?.Invoke();
         }
 
 
         if(collision.gameObject.tag == "dead")
         {
-            isDead = true;
+            OnPlayerDeath?.Invoke(); 
+        }
+
+        if(collision.gameObject.tag == "coin")
+        {
+            OnPlayerTakeCoin?.Invoke(collision.gameObject.GetComponent<ItemController>().Points);
+            Destroy(collision.gameObject);
+        }
+
+        if (collision.gameObject.tag == "heart")
+        {
+            OnPlayerTakeHeart?.Invoke(collision.gameObject.GetComponent<ItemController>().Points);
+            Destroy(collision.gameObject);
         }
     }
+
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if ((collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Obstacle"))
         {
-            isTakeEnemy = false;
+            enemieCollisionCount = Mathf.Max(0, enemieCollisionCount-1);
+            if(enemieCollisionCount==0)
+            {
+                canChangueColor = true;
+            }
+            
 
         }
+    }
+
+    private void OnEnable()
+    {
+        OnPlayerReceiveDamage += AddLife;
+        OnPlayerTakeCoin += AddPoints;
+        OnPlayerTakeHeart += AddLife;
+        
+    }
+
+    private void OnDisable()
+    {
+        OnPlayerReceiveDamage -= AddLife;
+        OnPlayerTakeCoin -= AddPoints;
+        OnPlayerTakeHeart -= AddLife;
     }
 
 
@@ -158,26 +207,25 @@ public class playerController : MonoBehaviour
         }
     }
 
-    public void SetReceiveDamage(bool statusReceiveDamage)
-    {
-        isReceiveDamage =statusReceiveDamage;
-    }
 
     public void SetLife(int maxLife)
     {
         currentLife = maxLife;
     }
 
-    public int AddLife(int pointLife)
+    public void AddLife(int pointLife)
     {
-        currentLife += pointLife;
-        return currentLife;
+
+        currentLife = Mathf.Clamp(currentLife + pointLife, 0,maxLife);
+        
     }
 
-    public int GetDamageEnemy()
+    public void AddPoints(int points)
     {
-       return enemy.GetComponent<EnemyController>().Damage;
+        currentPointsPlayer += points;
+        OnPlayerAddPointsCoin?.Invoke();
     }
+
 
 
 
