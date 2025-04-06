@@ -30,15 +30,6 @@ public class playerController : MonoBehaviour
     [SerializeField] private int currentLife;
     [SerializeField] private int maxLife;
 
-    public static event Action OnPlayerDeath;
-    public static event Action OnPlayerTakeTrush;
-    public static event Action OnPlayerAddPointsCoin;
-    public static event Action<int> OnPlayerReceiveDamage;
-    public static event Action<int> OnPlayerTakeCoin;
-    public static event Action<int> OnPlayerTakeHeart;
-
-   
-
     public int CurrentLife => currentLife;
     public int MaxLife => maxLife;  
 
@@ -54,8 +45,14 @@ public class playerController : MonoBehaviour
 
     [Header("Points")]
     [SerializeField] private int currentPointsPlayer;
+    public int CurrentPointsPlayer => currentPointsPlayer;
 
-    public int CurrentPointsPlayer => currentPointsPlayer; 
+    public static event Action OnPlayerDeath;
+    public static event Action OnPlayerTakeTrush;
+    public static event Action OnPlayerAddPointsCoin;
+    public static event Action<int> OnPlayerReceiveDamage;
+    public static event Action<int> OnPlayerTakeCoin;
+    public static event Action<int> OnPlayerTakeHeart;
 
     private void Awake()
     {
