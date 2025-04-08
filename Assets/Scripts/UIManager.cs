@@ -47,18 +47,18 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        playerController.OnPlayerTakeHeart += AddPoitnsToSlider;
-        playerController.OnPlayerReceiveDamage += AddPoitnsToSlider;
-        playerController.OnPlayerAddPointsCoin += SetPointsToTextCoins;
+        playerController.OnPlayerTakeHeart += SetPoitnsToSlider;
+        playerController.OnPlayerReceiveDamage += SetPoitnsToSlider;
+        playerController.OnPlayerTakeCoin += SetPointsToTextCoins;
         GameManager.OnGameFinish += ChangueStateButtonsGroup;
         GameManager.OnGameFinish += SetTimeTextsOnGameFinish;
     }
 
     private void OnDisable()
     {
-        playerController.OnPlayerTakeHeart -= AddPoitnsToSlider;
-        playerController.OnPlayerReceiveDamage -= AddPoitnsToSlider;
-        playerController.OnPlayerAddPointsCoin -= SetPointsToTextCoins;
+        playerController.OnPlayerTakeHeart -= SetPoitnsToSlider;
+        playerController.OnPlayerReceiveDamage -= SetPoitnsToSlider;
+        playerController.OnPlayerTakeCoin -= SetPointsToTextCoins;
         GameManager.OnGameFinish -= ChangueStateButtonsGroup;
         GameManager.OnGameFinish -= SetTimeTextsOnGameFinish;
     }
@@ -66,9 +66,9 @@ public class UIManager : MonoBehaviour
 
 
 
-    void AddPoitnsToSlider(int points)
+    void SetPoitnsToSlider()
     {
-        sliderLife.value += points;
+        sliderLife.value = player.CurrentLife;
     }
     void SetPointsToTextCoins()
     {

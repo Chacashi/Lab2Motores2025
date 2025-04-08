@@ -49,10 +49,9 @@ public class playerController : MonoBehaviour
 
     public static event Action OnPlayerDeath;
     public static event Action OnPlayerTakeTrush;
-    public static event Action OnPlayerAddPointsCoin;
-    public static event Action<int> OnPlayerReceiveDamage;
-    public static event Action<int> OnPlayerTakeCoin;
-    public static event Action<int> OnPlayerTakeHeart;
+    public static event Action OnPlayerReceiveDamage;
+    public static event Action OnPlayerTakeCoin;
+    public static event Action OnPlayerTakeHeart;
 
     private void Awake()
     {
@@ -131,8 +130,8 @@ public class playerController : MonoBehaviour
 
             if (this.gameObject.layer != collision.gameObject.layer)
             {
-                
-                OnPlayerReceiveDamage?.Invoke(collision.gameObject.GetComponent<EnemyController>().Damage);
+                AddLife(collision.gameObject.GetComponent<EnemyController>().Damage);   
+                OnPlayerReceiveDamage?.Invoke();
             }
             
         }
@@ -149,14 +148,16 @@ public class playerController : MonoBehaviour
         }
 
         if(collision.gameObject.tag == "coin")
-        {
-            OnPlayerTakeCoin?.Invoke(collision.gameObject.GetComponent<ItemController>().Points);
+        { 
+            AddPoints(collision.gameObject.GetComponent<ItemController>().Points);
+            OnPlayerTakeCoin?.Invoke();
             Destroy(collision.gameObject);
         }
 
         if (collision.gameObject.tag == "heart")
         {
-            OnPlayerTakeHeart?.Invoke(collision.gameObject.GetComponent<ItemController>().Points);
+            AddLife(collision.gameObject.GetComponent<ItemController>().Points);
+            OnPlayerTakeHeart?.Invoke();
             Destroy(collision.gameObject);
         }
     }
@@ -174,21 +175,6 @@ public class playerController : MonoBehaviour
             
 
         }
-    }
-
-    private void OnEnable()
-    {
-        OnPlayerReceiveDamage += AddLife;
-        OnPlayerTakeCoin += AddPoints;
-        OnPlayerTakeHeart += AddLife;
-        
-    }
-
-    private void OnDisable()
-    {
-        OnPlayerReceiveDamage -= AddLife;
-        OnPlayerTakeCoin -= AddPoints;
-        OnPlayerTakeHeart -= AddLife;
     }
 
 
@@ -220,7 +206,7 @@ public class playerController : MonoBehaviour
     public void AddPoints(int points)
     {
         currentPointsPlayer += points;
-        OnPlayerAddPointsCoin?.Invoke();
+        
     }
 
 
