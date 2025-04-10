@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class playerController : MonoBehaviour
 {
@@ -69,10 +71,7 @@ public class playerController : MonoBehaviour
     {
         horizontal = Input.GetAxisRaw("Horizontal");
         CheckDirectionSprite(horizontal);
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            canJump = true;
-        }
+      
 
         if (currentLife <= 0)
         {
@@ -103,6 +102,15 @@ public class playerController : MonoBehaviour
         }
 
 
+        
+    }
+
+    
+    public void OnMovement(InputAction.CallbackContext context)
+    {
+      
+        if(context.phase != InputActionPhase.Performed ) return;
+        canJump = true;
         if (canJump)
         {
             if (isJump)
@@ -113,14 +121,11 @@ public class playerController : MonoBehaviour
             else if (isDoubleJump)
             {
                 _compRigidbody2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                isDoubleJump= false;
-                canJump = false ;
+                isDoubleJump = false;
+                canJump = false;
             }
-        } 
+        }
     }
-
-    
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ((collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Obstacle"))
