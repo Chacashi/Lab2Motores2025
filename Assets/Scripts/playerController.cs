@@ -69,8 +69,7 @@ public class playerController : MonoBehaviour
 
     private void Update()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        CheckDirectionSprite(horizontal);
+       
       
 
         if (currentLife <= 0)
@@ -105,8 +104,12 @@ public class playerController : MonoBehaviour
         
     }
 
-    
     public void OnMovement(InputAction.CallbackContext context)
+    {
+        horizontal = context.ReadValue<float>();
+        CheckDirectionSprite(horizontal);
+    }
+    public void OnJump(InputAction.CallbackContext context)
     {
       
         if(context.phase != InputActionPhase.Performed ) return;
