@@ -41,9 +41,15 @@ public class playerController : MonoBehaviour
 
     public bool CanChangueColor => canChangueColor;
 
+    [Header("Changue Color")]
+    [SerializeField] private Color[] arrayColors = new Color[3];
+    [SerializeField] private int currentColorPosition = 0;
+    private int currentLayer = 7;
+    private float directionColor;
 
+    
     [Header("Sprite")]
-    SpriteRenderer _compSpriteRenderer;
+    private SpriteRenderer _compSpriteRenderer;
 
     [Header("Points")]
     [SerializeField] private int currentPointsPlayer;
@@ -54,6 +60,7 @@ public class playerController : MonoBehaviour
     public static event Action OnPlayerReceiveDamage;
     public static event Action OnPlayerTakeCoin;
     public static event Action OnPlayerTakeHeart;
+    public static event Action<int> OnColorLayerChangue;
 
     private void Awake()
     {
@@ -65,6 +72,10 @@ public class playerController : MonoBehaviour
     {
        SetLife(maxLife);
         canChangueColor = true;
+
+        _compSpriteRenderer.color = arrayColors[currentColorPosition];
+        this.gameObject.layer = currentLayer;
+        OnColorLayerChangue?.Invoke(currentLayer);
     }
 
     private void Update()
@@ -128,6 +139,57 @@ public class playerController : MonoBehaviour
                 canJump = false;
             }
         }
+    }
+
+    public void OnChangueColor(InputAction.CallbackContext context)
+    {
+        if(!canChangueColor) return;
+        if(context.phase != InputActionPhase.Performed) return;
+        directionColor = context.ReadValue<float>();
+        if (directionColor > 0)
+        {
+            currentColorPosition++;
+            currentLayer++;
+           
+            if (currentColorPosition >= arrayColors.Length)
+            {
+                currentColorPosition = 0;
+                currentLayer = 7;
+                _compSpriteRenderer.color = arrayColors[currentColorPosition];
+                this.gameObject.layer = currentLayer;
+                OnColorLayerChangue?.Invoke(currentLayer);
+
+            }
+            else
+            {
+                _compSpriteRenderer.color = arrayColors[currentColorPosition];
+                this.gameObject.layer = currentLayer;
+                OnColorLayerChangue?.Invoke(currentLayer);
+            }
+            
+        }
+        if(directionColor < 0)
+        {
+            currentColorPosition--;
+            currentLayer--;
+            
+            if (currentColorPosition < 0)
+            {
+                currentColorPosition = arrayColors.Length-1;
+                currentLayer = 9;
+                _compSpriteRenderer.color = arrayColors[currentColorPosition];
+                this.gameObject.layer = currentLayer;
+                OnColorLayerChangue?.Invoke(currentLayer);
+
+            }
+            else
+            {
+                _compSpriteRenderer.color = arrayColors[currentColorPosition];
+                this.gameObject.layer = currentLayer;
+                OnColorLayerChangue?.Invoke(currentLayer);
+            }
+        }
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
